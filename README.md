@@ -45,4 +45,8 @@ make menuconfig
 # 开始编译
 make package/luci-app-pdnsd/compile V=99
 ```
-![demo](http://chuantu.biz/t5/45/1483595055x1903953690.jpg)
+
+截图
+---
+
+![demo](https://github.com/AlexZhuo/BreakwallOpenWrt/raw/master/screenshots/pdnsd.png)
