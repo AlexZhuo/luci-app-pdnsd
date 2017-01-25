@@ -10,8 +10,11 @@ function sync_value_to_file(value, file)
 	end
 
 end
-local state_msg = ""
-local pdnsd_on = (luci.sys.call("pidof pdnsd > /dev/null") == 0)
+local state_msg = "" 
+
+local pdnsd_on = string.len(luci.sys.exec("cat /var/run/pdnsd.pid"))>0
+local other_pdnsd = (luci.sys.call("pidof pdnsd > /dev/null") == 0)
+
 local resolv_file = luci.sys.exec("uci get dhcp.@dnsmasq[0].resolvfile")
 if pdnsd_on then	
 	state_msg = "<b><font color=\"green\">" .. translate("Running") .. "</font></b>"
@@ -19,11 +22,12 @@ else
 	state_msg = "<b><font color=\"red\">" .. translate("Not running") .. "</font></b>"
 end
 local listen_port = luci.sys.exec("uci get dhcp.@dnsmasq[0].server")
-if string.sub(listen_port,1,14) == "127.0.0.1#5053" then 
+if pdnsd_on and string.sub(listen_port,1,14) == "127.0.0.1#5053" then 
 	state_msg=state_msg .. "，并恭喜你DNS转发正常"
-else if pdnsd_on then
+elseif pdnsd_on then
 	state_msg=state_msg .. "<b><font color=\"red\">但是当前DNS转发为｛" .. listen_port .."｝请到【DHCP/DNS】修改为【127.0.0.1#5053】，否则Pdnsd无效果</font></b>"
-	end
+elseif other_pdnsd then
+	state_msg=state_msg .. "，但是有其他程序开启了Pdnsd，如ShadowsocksR"
 end
 if resolv_file=="" then
 

@@ -11,6 +11,7 @@ if [ $vt_enabled = 1 ]; then
 	uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#5053
 	uci delete dhcp.@dnsmasq[0].resolvfile
 	uci set dhcp.@dnsmasq[0].noresolv=1
+	uci commit dhcp
 	cp /etc/pdnsd_gfw.cfg /etc/pdnsd.conf
 	/etc/init.d/dnsmasq restart
 	/etc/init.d/pdnsd enable
@@ -24,5 +25,6 @@ else
 	uci del_list dhcp.@dnsmasq[0].server=127.0.0.1#5053
 	uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.auto
 	uci delete dhcp.@dnsmasq[0].noresolv
+	uci commit dhcp
 	/etc/init.d/dnsmasq restart 
 fi
