@@ -1,5 +1,5 @@
 # luci-app-pdnsd
-为OpenWRT路由器Pdnsd设计的luci页面和配置文件，用于使用TCP协议请求DNS以方便代理转发或避免投毒，已在[该固件][]中使用
+为OpenWRT路由器Pdnsd设计的luci页面和配置文件，用于使用TCP协议请求DNS以方便代理转发或避免投毒，已在[该固件][A]中使用
 
 简介
 ---
@@ -35,7 +35,7 @@
 编译
 ---
 
-从 OpenWrt 的 [SDK][openwrt-sdk] 编译  
+从 OpenWrt 的 [SDK][openwrt-sdk] 编译
 ```bash
 # 解压下载好的 SDK
 tar xjf OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
@@ -57,3 +57,4 @@ make package/luci-app-pdnsd/compile V=99
 
 ![demo](https://github.com/AlexZhuo/BreakwallOpenWrt/raw/master/screenshots/pdnsd.png)
 [A]: http://www.right.com.cn/forum/thread-198649-1-1.html
+[openwrt-sdk]: https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
