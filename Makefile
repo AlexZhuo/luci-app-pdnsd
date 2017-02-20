@@ -10,10 +10,11 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-    SECTION:=utils
-    CATEGORY:=Utilities
-    TITLE:=luci for pdnsd to invoid DNS pollution
-        DEPENDS:=+pdnsd
+	CATEGORY:=Utilities
+	SUBMENU:=Luci
+	PKGARCH:=all
+	TITLE:=luci for pdnsd to invoid DNS pollution
+	DEPENDS:=+pdnsd
 endef
 
 define Package/$(PKG_NAME)/description
@@ -27,6 +28,8 @@ rm -rf /tmp/luci*
 endef
 
 define Build/Prepare
+	$(foreach po,$(wildcard ${CURDIR}/i18n/zh-cn/*.po), \
+		po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Build/Configure
@@ -36,7 +39,9 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
-    $(CP) ./files/* $(1)/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/*.*.lmo $(1)/usr/lib/lua/luci/i18n/
+	$(CP) ./files/* $(1)/
 
 endef
 

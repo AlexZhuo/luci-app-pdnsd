@@ -1,5 +1,5 @@
 # luci-app-pdnsd
-为OpenWRT路由器Pdnsd设计的luci页面和配置文件，用于TCP请求DNS以免投毒
+为OpenWRT路由器Pdnsd设计的luci页面和配置文件，用于使用TCP协议请求DNS以方便代理转发或避免投毒，已在[该固件][]中使用
 
 简介
 ---
@@ -8,16 +8,18 @@
 
 默认显示的配置文件：    /etc/pdnsd_gfw.cfg
 
-默认监听端口：         0.0.0.0:5053 
+默认监听端口：         `0.0.0.0:5053` 
 
 默认模式：             tcp_only
 
-默认上游DNS服务器：     114.114.114.114 
+默认上游DNS服务器：     `114.114.114.114`
 
-默认备用服务器：        OpenDNS 
+默认备用服务器：        `OpenDNS`
 
-该配置文件无需修改即可防止DNS污染。点击【保存&应用】后会将此文件覆盖"/etc/pdnsd.conf"并重启pdnsd，同时会后台自动修改【DHCP/DNS】的【DNS转发】为【127.0.0.1#5053】并勾选【忽略解析文件】并重启dnsmasq，在Pdnsd界面会自动检查这个配置，如果没有配置成功会以红色字提示。在取消启用后会自动恢复【DHCP/DNS】的配置。但是需要你手动去点击【DHCP/DNS】的【保存&应用】否则重启会失效并红字提示。
-使用效果和更多使用方法请参考http://www.right.com.cn/forum/thread-198649-1-1.html
+默认备用服务器DNS端口    `53` 
+
+该配置文件无需修改即可防止DNS污染。点击【保存&应用】后会将此配置文件覆盖"/etc/pdnsd.conf"并重启pdnsd，同时会后台自动修改【DHCP/DNS】的【DNS转发】为【127.0.0.1#5053】并勾选【忽略解析文件】并重启dnsmasq，刷新Pdnsd界面会自动检查这个配置，如果没有配置成功会以红色字提示。在取消启用后会自动恢复【DHCP/DNS】的配置。但是需要你手动去点击【DHCP/DNS】的【保存&应用】否则重启会失效并红字提示。
+使用效果和更多使用方法请[参考这里][A]
 
 
 依赖
@@ -40,7 +42,11 @@ tar xjf OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.b
 cd OpenWrt-SDK-ar71xx-*
 # Clone 项目
 git clone https://github.com/AlexZhuo/luci-app-pdnsd package/luci-app-pdnsd
-# 选择要编译的包 LuCI -> 3. Applications
+# 编译 po2lmo (如果有po2lmo可跳过)
+pushd package/luci-app-pdnsd/tools/po2lmo
+make && sudo make install
+popd
+# 选择要编译的包 Utilities -> LuCI -> luci-app-pdnsd
 make menuconfig
 # 开始编译
 make package/luci-app-pdnsd/compile V=99
@@ -50,3 +56,4 @@ make package/luci-app-pdnsd/compile V=99
 ---
 
 ![demo](https://github.com/AlexZhuo/BreakwallOpenWrt/raw/master/screenshots/pdnsd.png)
+[A]: http://www.right.com.cn/forum/thread-198649-1-1.html

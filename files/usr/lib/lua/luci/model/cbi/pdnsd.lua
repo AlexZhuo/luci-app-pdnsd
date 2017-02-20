@@ -35,7 +35,7 @@ else if pdnsd_on then
 	state_msg=state_msg .. "<b><font color=\"red\">请到【DHCP/DNS】【HOSTS和解析文件】勾上【忽略解析文件】的勾，否则Pdnsd可能无效果</font></b>"
 	end
 end
-m=Map("pdnsd",translate("Pdnsd"),translate("Pdnsd可以实现类似ChinaDNS的效果，通过TCP协议进行DNS解析可以有效避免DNS污染，默认上游服务器为114DNS，可以在【DHCP/DNS】中设置【DNS转发】为【127.0.0.1#5053】即可将所有DNS请求交给pdnsd进行解析，由于pdnsd自带缓存，所以很快哦。注意SSR如果你勾选了TCP解析DNS会也会开启一个pdnsd监听7453接口，并与该页面的pdnsd冲突，点击【保存/应用】可以重启pdnsd。另外你可以使用dig来检测DNS解析情况，方法dig @127.0.0.1 -p 5053 www.facebook.com ,使用说明请<a href='http://www.right.com.cn/forum/thread-198649-1-1.html'>点击这里</a>").. "<br><br>状态 - " .. state_msg)
+m=Map("pdnsd",translate("Pdnsd"),translate("Pdnsd可以通过TCP协议进行DNS解析,可以方便的使用iptables进行透明代理，配合ipset、GFWList使用效果更佳。默认上游服务器为114DNS，可以在【DHCP/DNS】中设置【DNS转发】为【127.0.0.1#5053】即可将全局DNS请求交给pdnsd进行解析，由于pdnsd自带缓存，所以可以加快解析速度。另外你可以使用dig来检测DNS解析情况，方法dig @127.0.0.1 -p 5053 www.facebook.com ,使用说明请<a href='http://www.right.com.cn/forum/thread-198649-1-1.html'>点击这里</a>").. "<br><br>状态 - " .. state_msg)
 s=m:section(TypedSection,"arguments","")
 s.addremove=false
 s.anonymous=true
