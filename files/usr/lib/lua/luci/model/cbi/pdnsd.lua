@@ -53,7 +53,7 @@ s.anonymous=true
 -- ---------------------------------------------------
 local apply = luci.http.formvalue("cbi.apply")
 if apply then
-	os.execute("/etc/pdnsd_init.sh >/dev/null 2>&1 &")
+	os.execute("/etc/pdnsd_init.sh restart >/dev/null 2>&1 &")
 end
 
 return m
